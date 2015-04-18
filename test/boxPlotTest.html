@@ -20,11 +20,11 @@
     <svg></svg>
   </div>
   <div class='chart half' id="bad_whiskers">
-    Bad whisker
+    Bad whiskers
     <svg></svg>
   </div>
   <div class='chart half' id="bad_outliers">
-    Bad outliers (empty lists)
+    Bad outliers
     <svg></svg>
   </div>
 <script>
@@ -228,7 +228,9 @@ defaultChartConfig("chart4", testDozenBoxes, {
   maxBoxWidth: 75
 });
 
-defaultChartConfig("bad_whiskers", badWhiskers, {});
+defaultChartConfig("bad_whiskers", badWhiskers, {
+  staggerLabels: true
+});
 defaultChartConfig("bad_outliers", badOutliers, {});
 
 function defaultChartConfig(containerId, data, chartOptions) {
