@@ -11,16 +11,20 @@
     Normal data (maxBoxWidth and staggerLabel options)
     <svg></svg>
   </div>
-  <div class='chart half' id="chart2">
-    Data with no outliers (empty lists)
-    <svg></svg>
-  </div>
   <div class='chart half' id="chart3">
     Single box
     <svg></svg>
   </div>
   <div class='chart half' id="chart4">
     Twelve boxes (repeating)
+    <svg></svg>
+  </div>
+  <div class='chart half' id="bad_whiskers">
+    Bad whisker
+    <svg></svg>
+  </div>
+  <div class='chart half' id="bad_outliers">
+    Bad outliers (empty lists)
     <svg></svg>
   </div>
 <script>
@@ -62,7 +66,6 @@ function testData1() {
        }
      ];
 }
-
 
 function testNoOutliers() {
     return  [ 
@@ -138,12 +141,112 @@ function testDozenBoxes() {
     ]
 }
 
+function badWhiskers() {
+    return [
+        {
+          "label": "Missing High",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: 50,
+            outliers: []          
+          }
+        }, 
+        {
+          "label": "Missing Low",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_high: 200,
+            outliers: []          
+          }
+        }, 
+        {
+          "label": "Null High",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: 50,
+            whisker_high: null,
+            outliers: []          
+          }
+        }, 
+        {
+          "label": "Null Low",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: null,
+            whisker_high: 200,
+            outliers: []          
+          }
+        }, 
+        {
+          "label": "Both Missing",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            outliers: []          
+          }
+        }, 
+        {
+          "label": "Both Null",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: null,
+            whisker_high: null,
+            outliers: []          
+          }
+        },
+        {
+          "label": "Both Missing with Outliers",
+          "values": { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            outliers: [25, 250]
+          }
+        }
+    ]
+}
+
+function badOutliers() {
+    return [
+        {
+          "label": "Bad whiskers",
+          "values": { 
+            Q1: 790,
+            Q2: 830,
+            Q3: 860,
+            whisker_high: null,
+            outliers: []          
+          }
+        }, 
+        {
+          label: "Null outliers",
+          values: { 
+            Q1: 845,
+            Q2: 875,
+            Q3: 925,
+            whisker_low: 760,
+            whisker_high: 1020,
+            // outliers: null
+          }
+        }
+    ]
+}
+
 defaultChartConfig("chart1", testData1, {
   staggerLabels: true,
   maxBoxWidth: 75
 });
-
-defaultChartConfig("chart2", testNoOutliers, {});
 
 defaultChartConfig("chart3", testSingleBox, {});
 
@@ -151,6 +254,9 @@ defaultChartConfig("chart4", testDozenBoxes, {
   staggerLabels: true,
   maxBoxWidth: 75
 });
+
+defaultChartConfig("bad_whiskers", testNoWhiskers, {});
+defaultChartConfig("bad_outliers", testNoOutliers, {});
 
 function defaultChartConfig(containerId, data, chartOptions) {
   nv.addGraph(function() {
