@@ -67,44 +67,6 @@ function testData1() {
      ];
 }
 
-function testNoOutliers() {
-    return  [ 
-       {
-         label: "Sample A",
-         values: { 
-           Q1: 120,
-           Q2: 150,
-           Q3: 200,
-           whisker_low: 115,
-           whisker_high: 210,
-           outliers: []
-         },
-       },
-       {
-         label: "Sample B",
-         values: { 
-           Q1: 300,
-           Q2: 350,
-           Q3: 400,
-           whisker_low: 225,
-           whisker_high: 400,
-           outliers: []
-         },
-       },
-       {
-         label: "Sample C",
-         values: { 
-           Q1: 50,
-           Q2: 100,
-           Q3: 125,
-           whisker_low: 25,
-           whisker_high: 175,
-           outliers: []
-         },
-       }
-     ];    
-}
-
 function testSingleBox() {
     return [
         { 
@@ -220,24 +182,35 @@ function badWhiskers() {
 function badOutliers() {
     return [
         {
-          "label": "Bad whiskers",
+          "label": "Empty outlier list",
           "values": { 
-            Q1: 790,
-            Q2: 830,
-            Q3: 860,
-            whisker_high: null,
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: 50,
+            whisker_high: 200,
             outliers: []          
           }
         }, 
         {
           label: "Null outliers",
           values: { 
-            Q1: 845,
-            Q2: 875,
-            Q3: 925,
-            whisker_low: 760,
-            whisker_high: 1020,
-            // outliers: null
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: 50,
+            whisker_high: 200,
+            outliers: null
+          }
+        },
+        {
+          label: "No outliers",
+          values: { 
+            Q1: 100,
+            Q2: 125,
+            Q3: 150,
+            whisker_low: 50,
+            whisker_high: 200,
           }
         }
     ]
@@ -255,8 +228,8 @@ defaultChartConfig("chart4", testDozenBoxes, {
   maxBoxWidth: 75
 });
 
-defaultChartConfig("bad_whiskers", testNoWhiskers, {});
-defaultChartConfig("bad_outliers", testNoOutliers, {});
+defaultChartConfig("bad_whiskers", badWhiskers, {});
+defaultChartConfig("bad_outliers", badOutliers, {});
 
 function defaultChartConfig(containerId, data, chartOptions) {
   nv.addGraph(function() {
